@@ -13,6 +13,7 @@ import org.jetbrains.anko.toast
 const val REQUEST_NAV = 1
 const val REQUEST_OPERACION = 2
 const val REQUEST_CAMARA = 3
+const val REQUEST_TIEMPO = 4
 
 
 class MainActivity : AppCompatActivity() {
@@ -46,10 +47,13 @@ class MainActivity : AppCompatActivity() {
             startActivityForResult(intent3, REQUEST_CAMARA)
         }
 
-
-
-
-
+        btnTemporizador.setOnClickListener{
+            val intent4 = Intent(
+            this,
+                Temporizador::class.java
+            )
+            startActivityForResult(intent4, REQUEST_TIEMPO)
+        }
 
     }
 
@@ -93,6 +97,20 @@ class MainActivity : AppCompatActivity() {
                     toast("Has fallado...")
                 }
                 btnCamara.setEnabled(false)
+            }
+        }
+
+        if (requestCode == REQUEST_TIEMPO) {  //Reto parar en 5 segundos
+            if (resultCode == Activity.RESULT_OK) {
+                //Se cogen los int y si coinciden los enteros se da por correcto
+                if (intent?.getIntExtra("tiempoFinal", 0)==((intent?.getIntExtra("tiempoIni", 0)))) {
+                    btnTemporizador.setBackgroundColor(Color.GREEN)
+                    toast("Buen trabajo!")
+                } else {
+                    btnTemporizador.setBackgroundColor(Color.RED)
+                    toast("Has fallado...")
+                }
+                btnTemporizador.setEnabled(false)
             }
         }
     }
