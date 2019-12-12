@@ -12,6 +12,7 @@ import org.jetbrains.anko.toast
 
 const val REQUEST_NAV = 1
 const val REQUEST_OPERACION = 2
+const val REQUEST_CAMARA = 3
 
 
 class MainActivity : AppCompatActivity() {
@@ -36,6 +37,16 @@ class MainActivity : AppCompatActivity() {
             )//Inicializamos el intent con la clase
             startActivityForResult(intent2, REQUEST_OPERACION)//Confirmacion del intent
         }
+
+        btnCamara.setOnClickListener{
+            val intent3 = Intent(
+                this,
+                Camara::class.java
+            )
+            startActivityForResult(intent3, REQUEST_CAMARA)
+        }
+
+
 
 
 
@@ -68,6 +79,20 @@ class MainActivity : AppCompatActivity() {
                     toast("Has fallado...")
                 }
                 btnOperacion.setEnabled(false)
+            }
+        }
+
+        if (requestCode == REQUEST_CAMARA) {
+            if (resultCode == Activity.RESULT_OK) {
+                //Dependiendo de si se ha recogido rojo o otro color saldra el resultado correcto o no. Si el valor que llega es un true es correcto
+                if (intent?.getBooleanExtra("resp", false)!!.equals(true)) {
+                    btnCamara.setBackgroundColor(Color.GREEN)
+                    toast("Bien hecho!")
+                } else {
+                    btnCamara.setBackgroundColor(Color.RED)
+                    toast("Has fallado...")
+                }
+                btnCamara.setEnabled(false)
             }
         }
     }
